@@ -66,3 +66,5 @@ feroxbuster -u https://target.com -w fuzz_main.txt
 Если словарь полезен — поставь ★ и сделай форк.
 Принимаются PR с новыми паттернами!
 
+SEO: web fuzzing wordlist, ffuf wordlist, Gobuster dictionary, Dirsearch fuzz list, Feroxbuster optimized wordlist, API fuzzing, backup file detection, cloud metadata wordlist, CI/CD fuzzing, pentest wordlist.
+

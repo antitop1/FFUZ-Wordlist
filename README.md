@@ -1,49 +1,98 @@
-# Web Fuzzing Wordlists
+# fuzz.txt — High-Quality Wordlist for Web Fuzzing
 
-Коллекция специализированных словарей для фаззинга веб-приложений с помощью **ffuf**, **DirBuster** и аналогичных инструментов. Словари содержат актуальные паттерны файлов и директорий, собранные из реальных проектов.
+Этот репозиторий содержит оптимизированный словарь для фаззинга веб-приложений, предназначенный для инструментов вроде ffuf, Gobuster, Dirsearch, Feroxbuster и других.
 
-## Содержание
+Словарь `fuzz.txt` включает:
+- современные пути и эндпоинты
+- файлы конфигураций
+- dev/backup/debug-файлы
+- API-маршруты
+- cloud / CI-CD / devops артефакты
+- расширенные паттерны для поиска скрытых директорий и файлов
 
-- `wordlists/`
-  - `common-files.txt` – Популярные файлы конфигурации, точки входа, скрытые файлы
-  - `dotfiles.txt` – Файлы, начинающиеся с точки (включая системные и инструментальные)
-  - `env-patterns.txt` – Варианты файлов окружения (.env, config и т.д.)
+---
 
-## Пример содержимого
-.env.example
-main/.env
-docs/.env
-client/.env
-.env.dev
-blogs/.env
-shared/.env
-download/.env
-.env.php
-site/.env
-sites/.env
-web/.env
-.bower-registry
-.bower-tmp
-.bower.json
-.buckconfig
-.build/
-.buildpacks
-.buildpath
-.buildpath/
-.builds
-.bundle
-.bundle/
-.busted
-.byebug_history
-.bz2
+## Содержание репозитория
+```
+.
+├── fuzz.txt        # Основной словарь
+└── README.md       # Этот файл
+```
 
+---
 
-## Использование
+## Назначение словаря
+`fuzz.txt` подходит для:
 
-### С FFUF
-ffuf -w wordlists/common-files.txt -u https://target/FUZZ
-ffuf -w wordlists/dotfiles.txt -u https://target/.FUZZ
+- Директория-фаззинга
+- Поиска скрытых файлов и конфигураций
+- Сканирования API-эндпоинтов
+- Поиска dev/backup/old/hidden ресурсов
+- Ловли cloud-метадаты
+- Docker/K8s артефактов
+- CI/CD файлов
 
-С DirBuster/Gobuster
-gobuster dir -w wordlists/common-files.txt -u https://target.com/
-dirb https://target.com/ wordlists/env-patterns.txt
+---
+
+## Примеры использования
+### ffuf
+```bash
+ffuf -u https://target.com/FUZZ -w fuzz.txt -mc 200,301,302,403
+```
+
+### gobuster
+```bash
+gobuster dir -u https://target.com -w fuzz.txt -x php,txt,html,js
+```
+
+### dirsearch
+```bash
+dirsearch -u https://target.com -w fuzz.txt -e php,js,txt,log
+```
+
+### feroxbuster
+```bash
+feroxbuster -u https://target.com -w fuzz.txt
+```
+
+---
+
+## Качество словаря
+Перед публикацией `fuzz.txt` был обработан:
+
+- удаление дубликатов
+- нормализация путей
+- сортировка
+- удаление пустых строк
+- добавление современных паттернов
+- включая API, cloud и devops-дороги
+
+---
+
+## Автоматизация
+Скрипт для очистки словаря:
+
+```bash
+sort -u fuzz.txt -o fuzz.txt
+```
+
+Продвинутая версия на Python:
+```python
+with open("fuzz.txt") as f:
+    items = {line.strip() for line in f if line.strip()}
+with open("fuzz.txt", "w") as f:
+    for i in sorted(items):
+        f.write(i + "\n")
+```
+
+---
+
+## Лицензия
+Свободно используй, модифицируй и комбинируй.
+
+---
+
+## Поддержка
+Если словарь полезен — поставь ★ и сделай форк.
+Принимаются PR с новыми паттернами!
+
